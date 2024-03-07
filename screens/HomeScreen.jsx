@@ -5,7 +5,7 @@ import tw from 'twrnc'
 import { useNavigation } from "@react-navigation/native"
 import { ChevronDownIcon, UserIcon, SearchIcon, AdjustmentsIcon } from "react-native-heroicons/outline"
 import Categories from '../components/Categories'
-
+import FeaturedRow from '../components/FeaturedRow'
 const HomeScreen = () => {
 
   const navigation = useNavigation();
@@ -43,6 +43,25 @@ const HomeScreen = () => {
       {/* </Text> */}
       <ScrollView style={tw`bg-gray-200`}>
         <Categories />
+
+        {/* Featured Rows */}
+        <FeaturedRow 
+        id="123"
+        title="Featured"
+        description="Paid placements fromour Partners "
+        /> 
+         <FeaturedRow 
+         id="1234"
+        title="Featured"
+        description="Paid placements fromour Partners "
+        
+        /> 
+         <FeaturedRow 
+         id="12345"
+        title="Featured"
+        description="Paid placements fromour Partners "
+     
+        /> 
       </ScrollView>
     </SafeAreaView>
 
