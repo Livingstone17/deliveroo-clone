@@ -10,6 +10,8 @@
   },
   "dependencies": {
     "@react-navigation/native-stack": "^6.9.20",
+    "@sanity/client": "^6.15.2",
+    "@sanity/image-url": "^1.0.2",
     "expo": "~50.0.8",
     "expo-status-bar": "~1.11.1",
     "global": "^4.4.0",

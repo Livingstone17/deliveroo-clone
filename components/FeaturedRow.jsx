@@ -16,7 +16,32 @@ const FeaturedRow = ({title,description,id}) => {
       <ScrollView horizontal contentContainerStyle={{paddingHorizontal:15}}
       showsHorizontalScrollIndicator={false}>
         {/* Restaurant cards */}
-        <RestaurantCards />
+        <RestaurantCards 
+        id={123}
+        imgUrl="https://links.papareact.com/gn7"
+        title=" Tu shi"
+        rating={4.5}
+        genre="Chinese"
+        address="432 Ibadan close, Apomu Layout"
+        short_description="Odun pa"
+        dishes={[]}
+        long={6.45}
+        lat={3.005}
+        />
+         <RestaurantCards 
+        id={123}
+        imgUrl="https://links.papareact.com/gn7"
+        title=" Tu shi"
+        rating={4.5}
+        genre="Chinese"
+        address="432 Ibadan close, Apomu Layout"
+        short_description="Odun pa"
+        dishes={[]}
+        long={6.45}
+        lat={3.005}
+        />
+         
+         
       </ScrollView>
     </View>
   )
