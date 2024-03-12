@@ -1,10 +1,30 @@
 import { View, Text, ScrollView } from 'react-native'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { ArrowRightIcon } from 'react-native-heroicons/outline'
 import tw from 'twrnc'
 import RestaurantCards from './RestaurantCards'
+import client from '../sanity'
 
 const FeaturedRow = ({title,description,id}) => {
+
+    const [restaurants,setRestaurants] = useState([]);
+
+    useEffect(()=>{
+        client.fetch(`
+        *[_type == "featured" && _id == $id]{
+            ...,
+            restaurants[]->{
+                ...,
+                dishes[]->,
+                type->{
+                    name
+                }
+            },
+        }[0]
+        `,{id}).then(data=>{
+            setRestaurants(data?.restaurants)
+        })
+    },[])
   return (
     <View>
       <View style={tw`mt-4 flex-row items-center justify-between px-4`}> 
@@ -16,32 +36,25 @@ const FeaturedRow = ({title,description,id}) => {
       <ScrollView horizontal contentContainerStyle={{paddingHorizontal:15}}
       showsHorizontalScrollIndicator={false}>
         {/* Restaurant cards */}
-        <RestaurantCards 
-        id={123}
-        imgUrl="https://links.papareact.com/gn7"
-        title=" Tu shi"
-        rating={4.5}
-        genre="Chinese"
-        address="432 Ibadan close, Apomu Layout"
-        short_description="Odun pa"
-        dishes={[]}
-        long={6.45}
-        lat={3.005}
-        />
-         <RestaurantCards 
-        id={123}
-        imgUrl="https://links.papareact.com/gn7"
-        title=" Tu shi"
-        rating={4.5}
-        genre="Chinese"
-        address="432 Ibadan close, Apomu Layout"
-        short_description="Odun pa"
-        dishes={[]}
-        long={6.45}
-        lat={3.005}
-        />
+{restaurants.map(restaurant => (
+    <RestaurantCards 
+    key={restaurant.id}
+    id={restaurant.id}
+    imgUrl={restaurant.image}
+    title={restaurant.name}
+    rating={restaurant.rating}
+    genre={restaurant.type?.name}
+    address={restaurant.address}
+    short_description={restaurant.short_description}
+    dishes={restaurant.dishes}
+    long={restaurant.long}
+    lat={restaurant.lat}
+    />
+))}
+        
+        
          
-         
+
       </ScrollView>
     </View>
   )

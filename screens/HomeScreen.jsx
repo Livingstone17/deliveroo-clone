@@ -1,20 +1,36 @@
 
-import React, { useLayoutEffect } from 'react'
+import React, { useEffect, useLayoutEffect, useState } from 'react'
 import { View, Text, SafeAreaView, Image, TextInput, ScrollView } from 'react-native'
 import tw from 'twrnc'
 import { useNavigation } from "@react-navigation/native"
 import { ChevronDownIcon, UserIcon, SearchIcon, AdjustmentsIcon } from "react-native-heroicons/outline"
 import Categories from '../components/Categories'
 import FeaturedRow from '../components/FeaturedRow'
+import client from '../sanity'
 const HomeScreen = () => {
 
   const navigation = useNavigation();
+  const [featuredCategory,setFeaturedCategory] = useState([])
 
   useLayoutEffect(() => {
     navigation.setOptions({
       headerShown: false,
     });
   }, []);
+
+  useEffect(()=>{
+    client.fetch(`*[_type=="featured"]{
+      ...,
+      restaurants[]->{
+        ...,
+        dishes[]->
+      }
+    }`).then(data => {
+      setFeaturedCategory(data)
+    })
+  },[])
+
+  // console.log(featuredCategory)
   return (
     <SafeAreaView style={tw`p-2`}>
       {/* <Text> */}
@@ -45,23 +61,16 @@ const HomeScreen = () => {
         <Categories />
 
         {/* Featured Rows */}
-        <FeaturedRow 
-        id="123"
-        title="Featured"
-        description="Paid placements fromour Partners "
-        /> 
-         <FeaturedRow 
-         id="1234"
-        title="Featured"
-        description="Paid placements fromour Partners "
+        {featuredCategory?.map((category) =>(
+          <FeaturedRow 
+          key={category._id}
+          id={category._id}
+          title={category.name}
+          description={category.short_description}
+          /> 
+        ))}
         
-        /> 
-         <FeaturedRow 
-         id="12345"
-        title="Featured"
-        description="Paid placements fromour Partners "
-     
-        /> 
+        
       </ScrollView>
     </SafeAreaView>
 
