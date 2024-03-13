@@ -13,7 +13,7 @@ const Categories = () => {
       *[_type == "category"]
     `).then(data => (
       setCategories(data)
-    ))
+    )).catch(err=>err)
   },[])
 
   return (

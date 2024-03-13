@@ -25,16 +25,16 @@ const HomeScreen = () => {
         ...,
         dishes[]->
       }
-    }`).then(data => {
+    }`).then((data) => {
       setFeaturedCategory(data)
-    })
-  },[])
+    }).catch(err=>err)
+  },[]);
 
-  // console.log(featuredCategory)
+  console.log(featuredCategory)
   return (
     <SafeAreaView style={tw`p-2`}>
       {/* <Text> */}
-      <View style={tw`flex-row pb-3 items-center mx-4 space-x-2`}>
+      <View style={tw`flex-row pb-3 items-center mx-4`}>
         <Image source={{ uri: "https://links.papareact.com/wru", }}
           style={tw`h-7 w-7 bg-gray-300 p-4 rounded-full`}
         />
@@ -69,7 +69,7 @@ const HomeScreen = () => {
           description={category.short_description}
           /> 
         ))}
-        
+         
         
       </ScrollView>
     </SafeAreaView>
