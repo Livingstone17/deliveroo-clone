@@ -7,6 +7,8 @@ import { ChevronDownIcon, UserIcon, SearchIcon, AdjustmentsIcon } from "react-na
 import Categories from '../components/Categories'
 import FeaturedRow from '../components/FeaturedRow'
 import client from '../sanity'
+
+
 const HomeScreen = () => {
 
   const navigation = useNavigation();
@@ -19,15 +21,22 @@ const HomeScreen = () => {
   }, []);
 
   useEffect(()=>{
-    client.fetch(`*[_type=="featured"]{
+    client.fetch(`
+    *[_type == "featured"]{
       ...,
-      restaurants[]->{
+      restuarants[]-> {
         ...,
-        dishes[]->
-      }
-    }`).then((data) => {
+        dishes[] -> ,
+          type-> {
+            name
+          }
+      },
+    }
+    `).then((data) => {
       setFeaturedCategory(data)
-    }).catch(err=>err)
+    })
+    .then(data => console.log(data))
+    .catch(err => console.error(err));
   },[]);
 
   console.log(featuredCategory)
@@ -47,8 +56,8 @@ const HomeScreen = () => {
         <UserIcon size={25} color="#00ccbb"/>
       </View>
 
-      <View style={tw`flex-row items-center space-x-2 pb-2 mx-4`}>
-        <View style={tw`flex-row flex-1 space-x-2 bg-gray-200 p-3`}>
+      <View style={tw`flex-row items-center pb-2 mx-4`}>
+        <View style={tw`flex-row flex-1 bg-gray-200 p-3`}>
 
             {/* <SearchIcon color="" /> */}
           <TextInput placeholder='Restaurants and cuisines' 
